@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Técnico de Extrusión de Aluminio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+/* 1. SETUP & THEME (Inspiración Industrial Dark) */
+* { box-sizing: border-box; }
+body { background-color: #e2e8f0; margin: 0; padding: 20px 0; display: grid; gap: 20px; grid-template-columns: 1fr; place-items: center; min-height: 100vh; }
+
+.slide-container {
+  width: 1280px; height: 720px;
+  background-color: #0f172a;
+  border-radius: 8px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  display: flex; flex-direction: column;
+  font-family: 'Urbanist', sans-serif;
+  padding: 60px; position: relative; overflow: hidden;
+}
+
+/* Decoración de fondo (Líneas y Shapes) */
+.slide-container::before {
+  content: ''; position: absolute; top: -10%; right: -10%; width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 70%);
+  z-index: 0;
+}
+.slide-container::after {
+  content: ''; position: absolute; bottom: 40px; left: 60px; right: 60px;
+  height: 1px; background: rgba(245, 245, 245, 0.15);
+}
+
+.slide-container > * { position: relative; z-index: 1; }
+
+/* 2. TYPOGRAPHY */
+h1, h2, h3, h4 { color: #f8fafc; font-weight: 700; margin: 0; }
+.slide-title { font-size: 48px; margin-bottom: 40px; border-left: 6px solid #38bdf8; padding-left: 25px; line-height: 1.1; text-transform: uppercase; letter-spacing: 1px; }
+.slide-title span { color: #38bdf8; }
+p, li, td, th { color: #cbd5e1; font-size: 20px; line-height: 1.5; }
+strong { color: #38bdf8; }
+
+/* 3. LAYOUTS */
+.content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; }
+.two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 100%; align-items: start; }
+.title-layout { text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.title-layout h1 { font-size: 64px; line-height: 1.1; margin-bottom: 30px; }
+.title-layout .subtitle { font-size: 24px; color: #94a3b8; max-width: 800px; margin: 0 auto; }
+
+.tile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
+.tile { background: #1e293b; border-radius: 12px; padding: 30px; border-bottom: 4px solid #38bdf8; }
+.tile i { font-size: 32px; color: #38bdf8; margin-bottom: 20px; display: block; }
+.tile h3 { font-size: 22px; margin-bottom: 12px; }
+
+/* 4. DATA VISUALIZATION */
+.chart-container { width: 100%; margin-top: 20px; }
+.bar-row { display: flex; align-items: center; gap: 20px; margin-bottom: 15px; }
+.bar-label { width: 200px; text-align: right; font-weight: 500; font-size: 18px; color: #cbd5e1; }
+.bar-track { flex-grow: 1; height: 35px; background: #334155; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 15px; color: white; font-weight: 700; font-size: 16px; }
+
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; background: #1e293b; color: #38bdf8; padding: 15px; font-size: 18px; }
+td { padding: 12px 15px; border-bottom: 1px solid #334155; font-size: 18px; }
+
+.image-wrapper { width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+.image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.image-wrapper.contain img { object-fit: contain; background: #1e293b; }
+
+.highlight-num { font-size: 120px; font-weight: 700; color: #38bdf8; line-height: 1; font-family: 'JetBrains Mono', monospace; }
+
+/* TIMELINE */
+.timeline { display: flex; justify-content: space-between; position: relative; margin-top: 40px; }
+.timeline::after { content: ''; position: absolute; top: 10px; left: 0; right: 0; height: 4px; background: #334155; z-index: 0; }
+.time-step { width: 23%; text-align: center; position: relative; z-index: 1; }
+.step-dot { width: 24px; height: 24px; background: #38bdf8; border-radius: 50%; margin: 0 auto 20px; position: relative; z-index: 2; border: 4px solid #0f172a; }
+.step-card { background: #1e293b; padding: 20px; border-radius: 8px; border: 1px solid #334155; }
+.step-card h4 { color: #38bdf8; font-size: 24px; margin-bottom: 12px; }
+
+/* MATH */
+#formula-container { 
+    background: #0f172a; 
+    padding: 30px; 
+    border-radius: 12px; 
+    border: 1px solid #38bdf8; 
+    margin: 20px 0; 
+    color: #ffffff; 
+    font-size: 26px; 
+    box-shadow: inset 0 4px 15px rgba(0,0,0,0.5);
+    overflow-x: auto;
+}
+#formula-container math {
+    color: #ffffff; 
+    text-shadow: 0 0 5px rgba(56, 189, 248, 0.2); 
+}
+#formula-container math mi, 
+#formula-container math mo, 
+#formula-container math mn, 
+#formula-container math mtext {
+    color: #ffffff;
+}
+
+/* BLEED IMAGE RIGHT */
+.slide-container.bleed-image-layout { align-items: start; display: grid; gap: 50px; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
+.slide-container.bleed-image-layout > .content-container { padding: 60px 0 60px 60px; display: flex; flex-direction: column; }
+.slide-container.bleed-image-layout img.bleed-image-side { height: 720px; object-fit: cover; border-radius: 0; width: 100%; }
+
+    </style>
+</head>
+<body>
+
+<div class="slide-container" id="slide1">
+    <div class="title-layout">
+        <p style="color: #38bdf8; letter-spacing: 4px; font-weight: 700; margin-bottom: 15px;">FACULTAD DE CIENCIAS E INGENIERÍA</p>
+        <h1>PROYECTO: DESARROLLO DE PERFILES DE <span>ALUMINIO</span> POR EXTRUSIÓN</h1>
+        <p class="subtitle">Optimización de parámetros operativos y estabilización del control dimensional para la reducción de índices de rechazo industrial.</p>
+        <div style="margin-top: 60px; font-size: 22px;">
+            <p><strong>UPCH</strong> | Procesos de Manufactura | 2026</p>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">Resumen <span>Ejecutivo</span></h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>Este proyecto aborda la ineficiencia productiva en la línea de extrusión de perfiles de aluminio AA6063-T5. Mediante el análisis térmico y mecánico, se propone una ruta de manufactura optimizada que mitiga defectos como el <strong>alabeo</strong> y variaciones de espesor.</p>
+                <div style="background: rgba(56, 189, 248, 0.1); padding: 30px; border-radius: 12px; margin-top: 30px;">
+                    <h3 style="color: #38bdf8; margin-bottom: 10px;">Impacto Estratégico</h3>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li>Reducción de mermas del material (recuperación del 88%).</li>
+                        <li>Control estricto de temperatura (460-500°C).</li>
+                        <li>Automatización mediante sistemas SCADA y PLC.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tile-grid" style="grid-template-columns: 1fr; gap: 15px;">
+                <div class="tile"><i class="fa-solid fa-microchip"></i><h3>Ingeniería de Proceso</h3><p>Validación técnica mediante cálculo de fuerza (133 Tonf).</p></div>
+                <div class="tile" style="border-color: #10b981;"><i class="fa-solid fa-chart-line"></i><h3>Viabilidad Económica</h3><p>Costo unitario estimado de $6.35 por pieza extruida.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">Planteamiento del <span>Problema</span></h2>
+    <div class="content-area" style="justify-content: space-between; gap: 24px;">
+        <div style="display: flex; gap: 16px; width: 100%;">
+            <div style="flex:1; background:#1e293b; border-radius:10px; padding:16px 20px; border-left:4px solid #38bdf8;">
+                <p style="margin:0; font-size:15px;"><strong style="color:#38bdf8;">Fluctuaciones de presión</strong><br><span style="font-size:13px; color:#94a3b8;">Inestabilidad en el empuje del pistón hidráulico.</span></p>
+            </div>
+            <div style="flex:1; background:#1e293b; border-radius:10px; padding:16px 20px; border-left:4px solid #f59e0b;">
+                <p style="margin:0; font-size:15px;"><strong style="color:#f59e0b;">Control térmico deficiente</strong><br><span style="font-size:13px; color:#94a3b8;">Variaciones de temperatura fuera del rango óptimo.</span></p>
+            </div>
+            <div style="flex:1; background:#1e293b; border-radius:10px; padding:16px 20px; border-left:4px solid #ef4444;">
+                <p style="margin:0; font-size:15px;"><strong style="color:#ef4444;">Desgarros térmicos</strong><br><span style="font-size:13px; color:#94a3b8;">Hot tearing por velocidades de extrusión descalibradas.</span></p>
+            </div>
+        </div>
+        <div style="width:100%; border-radius:12px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.5); border:1px solid #334155; flex-shrink:0; height:370px; display:flex; align-items:center; justify-content:center; background:#0f172a;">
+            <img src="images/ineficiencia_extrusión.png" alt="Análisis de Ineficiencia Productiva en Extrusión" style="width:100%; height:100%; object-fit:contain;">
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">Objetivos del <span>Proyecto</span></h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile">
+                <i class="fa-solid fa-bullseye"></i>
+                <h3>General</h3>
+                <p>Diseñar y analizar una propuesta de mejora para el conformado de extrusión en caliente que optimice parámetros y reduzca rechazos.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-vial"></i>
+                <h3>Caracterización</h3>
+                <p>Evaluar el comportamiento plástico y las propiedades térmicas de la aleación serie 6000 bajo altas presiones.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-calculator"></i>
+                <h3>Cálculo Crítico</h3>
+                <p>Analizar variables de temperatura, velocidad del pistón, presión de extrusión y tasas de enfriamiento.</p>
+            </div>
+        </div>
+        <div class="tile-grid" style="margin-top: 20px;">
+            <div class="tile" style="border-color: #10b981;">
+                <i class="fa-solid fa-diagram-project"></i>
+                <h3>Secuenciación</h3>
+                <p>Describir detalladamente las etapas desde el precalentamiento hasta el estirado y corte final.</p>
+            </div>
+            <div class="tile" style="border-color: #10b981; grid-column: span 2;">
+                <i class="fa-solid fa-compass-drafting"></i>
+                <h3>Protocolo Metrológico</h3>
+                <p>Establecer un sistema de medición de precisión para verificar tolerancias de espesor, planitud y angularidad (ASTM B221).</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bleed-image-layout" id="slide5">
+    <div class="content-container">
+        <h2 class="slide-title" style="font-size: 36px;">Caracterización: <span>AA6063-T5</span></h2>
+        <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px;">
+            <p style="font-size: 16px; color: #94a3b8; line-height: 1.6;">La aleación contiene <strong>Magnesio y Silicio</strong>, ofreciendo un equilibrio ideal entre extrudabilidad, resistencia a la corrosión y acabado visual.</p>
+            <table>
+                <thead>
+                    <tr><th>Propiedad Mecánica (T5)</th><th>Valor</th><th>Unidad</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Resistencia a la rotura</td><td>1 475</td><td>kg/cm²</td></tr>
+                    <tr><td>Límite elástico (2%)</td><td>1 195</td><td>kg/cm²</td></tr>
+                    <tr><td>Densidad</td><td>2,70</td><td>g/cm³</td></tr>
+                    <tr><td>Conductividad térmica</td><td>209</td><td>W/m·K</td></tr>
+                    <tr><td>Conductividad eléctrica</td><td>43,0</td><td>% IACS</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <img class="bleed-image-side" src="images/perfil_aluminio.jpg" alt="Perfiles de aluminio AA6063-T5 extruido">
+</div>
+
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Ingeniería del <span>Producto</span></h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Perfil Hueco Rectangular</h3>
+                <p>Diseñado para sistemas portantes en carpintería metálica y fachadas arquitectónicas.</p>
+                <ul style="margin-top: 25px;">
+                    <li><strong>Área Transversal (Af):</strong> 11,34 cm²</li>
+                    <li><strong>Masa Estimada:</strong> 0,857 kg/pieza</li>
+                    <li><strong>Espesor de Pared:</strong> 10,5 mm (Uniforme)</li>
+                    <li><strong>Dimensiones:</strong> 50,0 mm x 25,0 mm</li>
+                    <li><strong>Longitud de Corte:</strong> 280 mm</li>
+                </ul>
+                <p style="background: #1e293b; padding: 20px; border-radius: 8px; margin-top: 30px;">Elevada inercia y resistencia a la flexión/torsión relativa a su peso.</p>
+            </div>
+            <div>
+                <div class="image-wrapper contain" style="height: 450px; display:flex; align-items:center; justify-content:center; background:#0f172a; border: 2px solid #38bdf8;">
+                    <svg viewBox="0 0 400 450" width="100%" height="100%">
+                        <defs>
+                            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="1"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)" />
+                        <rect x="100" y="175" width="200" height="100" fill="rgba(56, 189, 248, 0.1)" stroke="#38bdf8" stroke-width="6" />
+                        <rect x="135" y="210" width="130" height="30" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
+                        <line x1="50" y1="225" x2="350" y2="225" stroke="#38bdf8" stroke-width="1" stroke-dasharray="5,5" />
+                        <line x1="200" y1="50" x2="200" y2="400" stroke="#38bdf8" stroke-width="1" stroke-dasharray="5,5" />
+                        <text x="200" y="160" fill="#38bdf8" font-size="16" font-family="monospace" text-anchor="middle">50.0 mm</text>
+                        <text x="80" y="230" fill="#38bdf8" font-size="16" font-family="monospace" text-anchor="middle" transform="rotate(-90 80,230)">25.0 mm</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Justificación del <span>Proceso</span></h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-wrapper" style="height: 350px; position: relative; overflow: hidden;">
+                <img src="images/extrusion_proceso.jpg" alt="Extrusión en caliente de aluminio" style="width:100%; height:100%; object-fit:cover; object-position: center;">
+                <div style="position:absolute; bottom:0; left:0; right:0; height:80px; background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, transparent 100%); display:flex; align-items:flex-end; padding: 14px 18px;">
+                    <p style="margin:0; font-size:13px; color:#94a3b8; font-style:italic;">Proceso de extrusión en caliente — tocho AA6063 a 460–500 °C</p>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="tile">
+                    <h3>Extrusión en Caliente</h3>
+                    <p>Es el único proceso económicamente viable para secciones transversales huecas, complejas y de longitud continua en aluminio.</p>
+                </div>
+                <div class="tile" style="border-color: #f59e0b;">
+                    <h3>Matriz de Puente</h3>
+                    <p>Permite dividir el flujo de metal y resoldarlo en fase sólida dentro de la cámara, garantizando tolerancias ASTM B221.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">Análisis <span>Comparativo</span></h2>
+    <div class="content-area">
+        <h3 style="margin-bottom: 30px;">Puntaje de Idoneidad por Proceso (Escala 1-10)</h3>
+        <div class="chart-container">
+            <div class="bar-row">
+                <div class="bar-label">Extrusión en Caliente</div>
+                <div class="bar-track"><div class="bar-fill" style="width: 95%; background: #38bdf8;">9.5</div></div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">Fundición a Presión</div>
+                <div class="bar-track"><div class="bar-fill" style="width: 55%; background: #64748b;">5.5</div></div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">Roll Forming</div>
+                <div class="bar-track"><div class="bar-fill" style="width: 45%; background: #64748b;">4.5</div></div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">Mecanizado CNC</div>
+                <div class="bar-track"><div class="bar-fill" style="width: 30%; background: #f43f5e;">3.0</div></div>
+            </div>
+        </div>
+        <p style="margin-top: 30px; font-style: italic; color: #94a3b8;">La extrusión ofrece la mejor relación entre costo de herramental, acabado superficial y aptitud para secciones complejas.</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">Ciclo de <span>Manufactura</span></h2>
+    <div class="content-area">
+        <div class="timeline">
+            <div class="time-step">
+                <div class="step-dot"></div>
+                <div class="step-card"><h4>Fase I</h4><p>Preparación de tocho y matriz (Precalentamiento).</p></div>
+            </div>
+            <div class="time-step">
+                <div class="step-dot"></div>
+                <div class="step-card"><h4>Fase II</h4><p>Conformado por extrusión y enfriamiento.</p></div>
+            </div>
+            <div class="time-step">
+                <div class="step-dot"></div>
+                <div class="step-card"><h4>Fase III</h4><p>Acabado (Estirado, Corte, Envejecido T5).</p></div>
+            </div>
+            <div class="time-step">
+                <div class="step-dot"></div>
+                <div class="step-card"><h4>Fase IV</h4><p>Control de Calidad y Despacho Final.</p></div>
+            </div>
+        </div>
+        <p style="margin-top: 50px; text-align: center;">Proceso organizado en <strong>15 etapas secuenciales</strong> para garantizar estabilidad dimensional.</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">Parámetros Críticos: <span>Temperatura</span></h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div style="text-align: center;">
+                <div class="highlight-num">460°C</div>
+                <p style="font-size: 24px; color: #38bdf8; font-weight: 700;">Precalentamiento del Tocho</p>
+            </div>
+            <div>
+                <ul class="tile-grid" style="grid-template-columns: 1fr; gap: 15px;">
+                    <li class="tile"><strong>Matriz:</strong> 450 - 480 °C</li>
+                    <li class="tile"><strong>Salida de Perfil:</strong> 500 - 550 °C</li>
+                    <li class="tile"><strong>Envejecido T5:</strong> 175 - 205 °C (3-5 Horas)</li>
+                </ul>
+                <p style="margin-top: 25px; font-size: 16px;">Un control térmico preciso evita el fenómeno de <strong>desgarro térmico</strong> (hot tearing).</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">Velocidad y <span>Presión</span></h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div style="width: 400px; height: 400px; border-radius: 50%; overflow: hidden; border: 8px solid #1e293b; background:#0f172a; display:flex; align-items:center; justify-content:center;">
+                <svg viewBox="0 0 400 400" width="100%" height="100%">
+                    <path d="M 80 300 A 160 160 0 1 1 320 300" fill="none" stroke="#334155" stroke-width="25" stroke-linecap="round"/>
+                    <path d="M 80 300 A 160 160 0 0 1 270 120" fill="none" stroke="#38bdf8" stroke-width="25" stroke-linecap="round"/>
+                    <circle cx="200" cy="200" r="18" fill="#f8fafc"/>
+                    <line x1="200" y1="200" x2="280" y2="100" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
+                    <text x="200" y="270" fill="#38bdf8" font-size="36" font-family="monospace" text-anchor="middle" font-weight="bold">73.8 MPa</text>
+                    <text x="200" y="310" fill="#cbd5e1" font-size="16" font-family="monospace" text-anchor="middle">Presión de Extrusión</text>
+                </svg>
+            </div>
+            <div>
+                <h3>Variables de Operación</h3>
+                <ul style="margin-top: 20px;">
+                    <li><strong>Ram Speed (Pistón):</strong> 1,0 a 1,6 m/min</li>
+                    <li><strong>Velocidad de Salida:</strong> 15 a 25 m/min</li>
+                    <li><strong>Presión de Extrusión (p):</strong> ≈ 73,8 MPa</li>
+                    <li><strong>Fuerza Total (F):</strong> ≈ 1 304 kN (133 Tonf)</li>
+                </ul>
+                <p style="margin-top: 30px; border-left: 4px solid #38bdf8; padding-left: 20px;">Valores compatibles con prensas hidráulicas de capacidad media (500 a 2500 toneladas).</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">Desarrollo de <span>Cálculos</span></h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div style="display:flex; flex-direction:column; justify-content:center;">
+                <div id="formula-container">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <mi>R</mi><mo>=</mo><mfrac><msub><mi>A</mi><mn>0</mn></msub><msub><mi>A</mi><mi>f</mi></msub></mfrac><mo>=</mo><mfrac><mn>17671</mn><mn>1134</mn></mfrac><mo>&#x2248;</mo><mn>15,6</mn><mo>:</mo><mn>1</mn>
+                    </math>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" style="margin-top: 25px;">
+                        <msub><mi>&#x3B5;</mi><mi>x</mi></msub><mo>=</mo><mn>0,8</mn><mo>+</mo><mn>1,5</mn><mo>&#x22C5;</mo><mi>ln</mi><mo>(</mo><mn>15,6</mn><mo>)</mo><mo>&#x2248;</mo><mn>4,92</mn>
+                    </math>
+                </div>
+                <p style="font-size: 16px; color: #94a3b8;">Modelo de deformación real (True Strain) según Groover (2019).</p>
+            </div>
+            <div style="position: relative; border-radius: 12px; overflow: hidden; height: 340px; align-self: center;">
+                <img src="images/calculos_ingenieria.jpg" alt="Ingeniería de cálculos" style="width:100%; height:100%; object-fit:cover; object-position: center 20%;">
+                <div style="position:absolute; inset:0; background: linear-gradient(135deg, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.55) 100%);"></div>
+                <div style="position:absolute; bottom:18px; left:18px; right:18px; background: rgba(15,23,42,0.65); backdrop-filter: blur(8px); border: 1px solid rgba(56,189,248,0.25); border-radius: 10px; padding: 14px 18px;">
+                    <p style="margin:0; font-size:14px; color:#e2e8f0; line-height:1.5;">El esfuerzo de fluencia promedio (Ȳ<sub>f</sub>) a 480 °C se estima en <strong>15 MPa</strong> para la aleación 6063.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">Plan de <span>Fabricación</span></h2>
+    <div class="content-area">
+        <h3 style="margin-bottom: 20px;">Lote de Referencia: 1,000 Piezas Mensuales</h3>
+        <table>
+            <thead>
+                <tr><th>Actividad</th><th>Tiempo Estimado</th><th>Recurso Principal</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Corte y Precalentamiento</td><td>45 min / lote</td><td>Horno de inducción</td></tr>
+                <tr><td>Ciclo de Extrusión</td><td>3-4 min / tocho</td><td>Prensa Hidráulica</td></tr>
+                <tr><td>Estirado y Corrección</td><td>1 min / tramo</td><td>Stretcher</td></tr>
+                <tr><td>Envejecido T5</td><td>3 Horas / lote</td><td>Horno de maduración</td></tr>
+                <tr><td>Control Metrológico</td><td>2 min / pieza</td><td>Proyector de perfiles</td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top: 25px; text-align: right; color: #38bdf8;">Capacidad teórica: 15-20 ciclos por hora por prensa.</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide14">
+    <h2 class="slide-title">Estructura de <span>Costos</span></h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div style="width: 380px; height: 380px; border-radius: 50%; background: conic-gradient(#38bdf8 0% 63.6%, #6366f1 63.6% 73.4%, #f59e0b 73.4% 82.5%, #10b981 82.5% 91.6%, #94a3b8 91.6% 100%); position: relative; border: 15px solid #1e293b;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center;">
+                    <p style="font-size: 48px; font-weight: 700; margin: 0;">$6.35</p>
+                    <p style="font-size: 16px; margin: 0;">Costo/Pieza</p>
+                </div>
+            </div>
+            <div>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 12px;"><span style="display: inline-block; width: 20px; height: 20px; background: #38bdf8; margin-right: 15px; border-radius: 4px;"></span> <strong>Materia Prima:</strong> 63.6% ($4.04)</li>
+                    <li style="margin-bottom: 12px;"><span style="display: inline-block; width: 20px; height: 20px; background: #6366f1; margin-right: 15px; border-radius: 4px;"></span> <strong>Energía:</strong> 9.8% ($0.62)</li>
+                    <li style="margin-bottom: 12px;"><span style="display: inline-block; width: 20px; height: 20px; background: #f59e0b; margin-right: 15px; border-radius: 4px;"></span> <strong>Mano de Obra:</strong> 9.1% ($0.58)</li>
+                    <li style="margin-bottom: 12px;"><span style="display: inline-block; width: 20px; height: 20px; background: #10b981; margin-right: 15px; border-radius: 4px;"></span> <strong>Tratamiento Térmico:</strong> 9.1%</li>
+                    <li style="margin-bottom: 12px;"><span style="display: inline-block; width: 20px; height: 20px; background: #94a3b8; margin-right: 15px; border-radius: 4px;"></span> <strong>Logística/Otros:</strong> 8.4%</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide15">
+    <h2 class="slide-title">Eficiencia y <span>Rendimiento</span></h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Recuperación de Material</h3>
+                <p>Rendimiento base (η): <strong>88%</strong></p>
+                <ul style="margin-top: 20px;">
+                    <li><strong>Tocho consumido:</strong> 0,974 kg</li>
+                    <li><strong>Pieza terminada:</strong> 0,857 kg</li>
+                    <li><strong>Merma generada:</strong> 0,117 kg/pieza</li>
+                </ul>
+                <p style="margin-top: 30px; font-size: 16px;">El valor de recuperación de chatarra (75-85% del precio virgen) reduce el costo neto de materia prima.</p>
+            </div>
+            <div style="height: 350px; background: #1e293b; border-radius: 12px; padding: 20px; position: relative;">
+                <p style="color: #38bdf8; font-weight: 700; margin-bottom: 20px;">Trend: Sensibilidad de Costo vs Merma</p>
+                <svg viewBox="0 0 400 200" style="width: 100%; height: 180px;">
+                    <path d="M0 180 Q 100 160, 200 100 T 400 20" fill="none" stroke="#38bdf8" stroke-width="4"></path>
+                    <path d="M0 180 Q 100 160, 200 100 T 400 20 L 400 200 L 0 200 Z" fill="rgba(56,189,248,0.1)"></path>
+                    <line x1="0" y1="180" x2="400" y2="180" stroke="#334155" stroke-width="2"></line>
+                </svg>
+                <p style="text-align: center; font-size: 14px; margin-top: 10px;">A mayor recuperación (η), menor impacto del costo de materia prima.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bleed-image-layout" id="slide16">
+    <div class="content-container">
+        <h2 class="slide-title">Propuesta de <span>Innovación</span></h2>
+        <div class="content-area">
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 20px;">
+                    <h3 style="color: #38bdf8;"><i class="fa-solid fa-microchip"></i> Control Isotérmico</h3>
+                    <p>Ajuste dinámico de velocidad basado en temperatura de salida (± 5 °C).</p>
+                </li>
+                <li style="margin-bottom: 20px;">
+                    <h3 style="color: #10b981;"><i class="fa-solid fa-bolt"></i> Perfilometría Láser</h3>
+                    <p>Inspección del 100% de la producción para alertas dimensionales inmediatas.</p>
+                </li>
+                <li style="margin-bottom: 20px;">
+                    <h3 style="color: #6366f1;"><i class="fa-solid fa-server"></i> Sistema SCADA</h3>
+                    <p>Automatización PLC para trazabilidad completa de cada lote extruido.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div style="position: relative; overflow: hidden;">
+        <img class="bleed-image-side" src="images/scada_innovacion.png" alt="Ingenieros revisando sistema SCADA" style="object-position: center center;">
+        <div style="position:absolute; inset:0; background: linear-gradient(to right, rgba(15,23,42,0.5) 0%, transparent 40%);"></div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide17">
+    <div class="title-layout">
+        <h2 class="slide-title" style="border: none;">Conclusiones y <span>Estrategia</span></h2>
+        <div class="tile-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 1000px; margin-top: 40px;">
+            <div class="tile" style="text-align: left;">
+                <h3>Viabilidad</h3>
+                <p>El diseño de manufactura para el perfil AA6063-T5 es técnica y económicamente factible para demandas industriales medias.</p>
+            </div>
+            <div class="tile" style="text-align: left; border-color: #10b981;">
+                <h3>Recomendación</h3>
+                <p>Implementar control isotérmico e inspección láser para mitigar la causa raíz de los defectos dimensionales.</p>
+            </div>
+        </div>
+        <div style="margin-top: 80px; opacity: 0.5;">
+            <p><strong>¿Preguntas?</strong> | www.upch.edu.pe | UPCH Ingeniería</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
