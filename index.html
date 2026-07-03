@@ -105,6 +105,19 @@ td { padding: 11px 14px; border-bottom: 1px solid #334155; font-size: 15px; }
 .innovation-list h3 { font-size: 20px; margin-bottom: 6px; }
 .innovation-list p { font-size: 15px; }
 
+/* Image accent overlay */
+.img-accent { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.img-accent img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.img-accent .img-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 16px; background: linear-gradient(to top, rgba(15,23,42,0.9) 0%, transparent 100%); }
+.img-accent .img-caption p { margin: 0; font-size: 13px; color: #94a3b8; font-style: italic; }
+
+/* Bleed image layout (image fills right half) */
+.slide-container.bleed-right { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 0; }
+.slide-container.bleed-right > .bleed-content { padding: 55px 40px 55px 60px; display: flex; flex-direction: column; justify-content: center; }
+.slide-container.bleed-right > .bleed-img { position: relative; overflow: hidden; }
+.slide-container.bleed-right > .bleed-img img { width: 100%; height: 100%; object-fit: cover; }
+.slide-container.bleed-right > .bleed-img .img-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(15,23,42,0.5) 0%, transparent 40%); }
+
     </style>
 </head>
 <body>
@@ -126,24 +139,27 @@ td { padding: 11px 14px; border-bottom: 1px solid #334155; font-size: 15px; }
 <div class="slide-container" id="slide2">
     <h2 class="slide-title">Planteamiento del <span>Problema</span></h2>
     <div class="content-area">
-        <div class="three-column">
-            <div class="tile" style="border-color: #f43f5e; background: rgba(244, 63, 94, 0.04);">
-                <i class="fa-solid fa-triangle-exclamation" style="color: #f43f5e;"></i>
-                <h3>El Problema</h3>
-                <p>Aparición constante de defectos dimensionales en la línea (alabeo, variaciones de espesor y defectos superficiales).</p>
-                <p style="margin-top: 14px; font-size: 15px; color: #94a3b8;"><strong style="color: #f43f5e;">¿Por qué?</strong> Severas fluctuaciones en la presión del pistón y control térmico deficiente entre el tocho y la matriz.</p>
+        <div class="two-column" style="align-items: stretch;">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="tile" style="border-color: #f43f5e; background: rgba(244, 63, 94, 0.04); padding: 20px;">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: #f43f5e; font-size: 24px; margin-bottom: 10px;"></i>
+                    <h3 style="font-size: 19px;">El Problema</h3>
+                    <p style="font-size: 15px;">Defectos dimensionales constantes (alabeo, variaciones de espesor). <span style="color: #94a3b8;">Causa: fluctuaciones de presión y control térmico deficiente.</span></p>
+                </div>
+                <div class="tile" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.04); padding: 20px;">
+                    <i class="fa-solid fa-money-bill-trend-up" style="color: #f59e0b; font-size: 24px; margin-bottom: 10px;"></i>
+                    <h3 style="font-size: 19px;">El Impacto</h3>
+                    <p style="font-size: 15px;">Lotes fuera de tolerancia. <span style="color: #94a3b8;">Eleva costos por rechazo y obliga a reprocesar como chatarra fundida.</span></p>
+                </div>
+                <div class="tile" style="border-color: #10b981; background: rgba(16, 185, 129, 0.04); padding: 20px;">
+                    <i class="fa-solid fa-lightbulb" style="color: #10b981; font-size: 24px; margin-bottom: 10px;"></i>
+                    <h3 style="font-size: 19px;">La Solución</h3>
+                    <p style="font-size: 15px;">Optimizar velocidad, presión hidráulica y temperaturas. <span style="color: #94a3b8;">Reducir desperdicio y garantizar ensamble final.</span></p>
+                </div>
             </div>
-            <div class="tile" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.04);">
-                <i class="fa-solid fa-money-bill-trend-up" style="color: #f59e0b;"></i>
-                <h3>El Impacto</h3>
-                <p>Lotes de producción enteros quedan fuera de las tolerancias geométricas permitidas por la norma.</p>
-                <p style="margin-top: 14px; font-size: 15px; color: #94a3b8;"><strong style="color: #f59e0b;">¿Por qué afecta?</strong> Eleva drásticamente los costos operativos por rechazo y obliga a reprocesar como chatarra fundida.</p>
-            </div>
-            <div class="tile" style="border-color: #10b981; background: rgba(16, 185, 129, 0.04);">
-                <i class="fa-solid fa-lightbulb" style="color: #10b981;"></i>
-                <h3>La Solución</h3>
-                <p>Intervenir la línea para optimizar la velocidad de extrusión, la presión hidráulica y las temperaturas de precalentamiento.</p>
-                <p style="margin-top: 14px; font-size: 15px; color: #94a3b8;"><strong style="color: #10b981;">¿Con qué fin?</strong> Reducir el desperdicio, bajar el consumo energético y garantizar el correcto ensamble final.</p>
+            <div class="img-accent" style="height: 100%; min-height: 400px;">
+                <img src="images/ineficiencia_extrusión.png" alt="Análisis de Ineficiencia Productiva en Extrusión" style="object-fit: contain; background: #0f172a;">
+                <div class="img-caption"><p>Análisis de ineficiencia productiva en línea de extrusión</p></div>
             </div>
         </div>
     </div>
@@ -189,17 +205,20 @@ td { padding: 11px 14px; border-bottom: 1px solid #334155; font-size: 15px; }
     <h2 class="slide-title">Producto de <span>Estudio</span></h2>
     <div class="content-area">
         <div class="two-column" style="align-items: center;">
-            <div class="image-wrapper contain" style="height: 400px; display:flex; align-items:center; justify-content:center; background:#0f172a; border: 1px solid #334155;">
-                <svg viewBox="0 0 400 450" width="100%" height="100%">
-                    <defs><pattern id="grid4" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="1"/></pattern></defs>
-                    <rect width="100%" height="100%" fill="url(#grid4)" />
-                    <rect x="100" y="175" width="200" height="100" fill="rgba(56, 189, 248, 0.1)" stroke="#38bdf8" stroke-width="6" />
-                    <rect x="135" y="210" width="130" height="30" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
-                    <line x1="50" y1="225" x2="350" y2="225" stroke="#38bdf8" stroke-width="1" stroke-dasharray="5,5" />
-                    <line x1="200" y1="50" x2="200" y2="400" stroke="#38bdf8" stroke-width="1" stroke-dasharray="5,5" />
-                    <text x="200" y="160" fill="#38bdf8" font-size="16" font-family="monospace" text-anchor="middle">50.0 mm</text>
-                    <text x="80" y="230" fill="#38bdf8" font-size="16" font-family="monospace" text-anchor="middle" transform="rotate(-90 80,230)">25.0 mm</text>
-                </svg>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div class="img-accent" style="height: 240px;">
+                    <img src="images/perfil_aluminio.jpg" alt="Perfiles de aluminio AA6063-T5 extruido" style="object-fit: cover;">
+                </div>
+                <div style="height: 160px; display:flex; align-items:center; justify-content:center; background:#0f172a; border: 1px solid #334155; border-radius: 10px; overflow: hidden;">
+                    <svg viewBox="0 0 400 200" width="100%" height="100%">
+                        <defs><pattern id="grid4" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="1"/></pattern></defs>
+                        <rect width="100%" height="100%" fill="url(#grid4)" />
+                        <rect x="100" y="50" width="200" height="100" fill="rgba(56, 189, 248, 0.1)" stroke="#38bdf8" stroke-width="5" />
+                        <rect x="135" y="80" width="130" height="30" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5" />
+                        <text x="200" y="40" fill="#38bdf8" font-size="14" font-family="monospace" text-anchor="middle">50.0 mm</text>
+                        <text x="75" y="105" fill="#38bdf8" font-size="14" font-family="monospace" text-anchor="middle" transform="rotate(-90 75,105)">25.0 mm</text>
+                    </svg>
+                </div>
             </div>
             <div>
                 <h3 style="font-size: 24px; margin-bottom: 12px;">Perfil estructural hueco rectangular</h3>
@@ -222,36 +241,38 @@ td { padding: 11px 14px; border-bottom: 1px solid #334155; font-size: 15px; }
 </div>
 
 <!-- SLIDE 5: SELECCIÓN DEL PROCESO -->
-<div class="slide-container" id="slide5">
-    <h2 class="slide-title">Selección del <span>Proceso</span></h2>
-    <div class="content-area">
-        <div class="two-column" style="align-items: center;">
-            <div>
-                <h3 style="margin-bottom: 18px; font-size: 22px;">Idoneidad por Proceso (1-10)</h3>
-                <div class="chart-container">
-                    <div class="bar-row">
-                        <div class="bar-label">Extrusión en Caliente</div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 95%; background: linear-gradient(90deg, #0ea5e9, #38bdf8);">9.5</div></div>
-                    </div>
-                    <div class="bar-row">
-                        <div class="bar-label">Fundición a Presión</div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 55%; background: #64748b;">5.5</div></div>
-                    </div>
-                    <div class="bar-row">
-                        <div class="bar-label">Roll Forming</div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 45%; background: #64748b;">4.5</div></div>
-                    </div>
-                    <div class="bar-row">
-                        <div class="bar-label">Mecanizado CNC</div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 30%; background: #f43f5e;">3.0</div></div>
-                    </div>
-                </div>
+<div class="slide-container bleed-right" id="slide5">
+    <div class="bleed-content">
+        <h2 class="slide-title" style="font-size: 36px;">Selección del <span>Proceso</span></h2>
+        <h3 style="margin-bottom: 16px; font-size: 20px;">Idoneidad por Proceso (1-10)</h3>
+        <div class="chart-container">
+            <div class="bar-row">
+                <div class="bar-label" style="width: 160px; font-size: 15px;">Extrusión en Caliente</div>
+                <div class="bar-track" style="height: 28px;"><div class="bar-fill" style="width: 95%; background: linear-gradient(90deg, #0ea5e9, #38bdf8); font-size: 14px;">9.5</div></div>
             </div>
-            <div style="background: rgba(56, 189, 248, 0.04); padding: 28px; border-radius: 12px; border-left: 5px solid #38bdf8;">
-                <h3 style="color: #38bdf8; margin-bottom: 14px; font-size: 22px;">Decisión Técnica</h3>
-                <p style="font-size: 17px;">La <strong>extrusión en caliente por compresión indirecta</strong> es el único proceso económicamente viable para este producto.</p>
-                <p style="font-size: 16px; margin-top: 14px; color: #94a3b8;"><strong>Justificación:</strong> A diferencia de la fundición (alta porosidad, herramental costoso) o el mecanizado CNC (altísimo desperdicio), la extrusión con matriz tipo "puente" permite producir secciones huecas continuas en un solo paso, con acabado óptimo y herramental de costo moderado.</p>
+            <div class="bar-row">
+                <div class="bar-label" style="width: 160px; font-size: 15px;">Fundición a Presión</div>
+                <div class="bar-track" style="height: 28px;"><div class="bar-fill" style="width: 55%; background: #64748b; font-size: 14px;">5.5</div></div>
             </div>
+            <div class="bar-row">
+                <div class="bar-label" style="width: 160px; font-size: 15px;">Roll Forming</div>
+                <div class="bar-track" style="height: 28px;"><div class="bar-fill" style="width: 45%; background: #64748b; font-size: 14px;">4.5</div></div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label" style="width: 160px; font-size: 15px;">Mecanizado CNC</div>
+                <div class="bar-track" style="height: 28px;"><div class="bar-fill" style="width: 30%; background: #f43f5e; font-size: 14px;">3.0</div></div>
+            </div>
+        </div>
+        <div style="background: rgba(56, 189, 248, 0.04); padding: 22px; border-radius: 10px; border-left: 4px solid #38bdf8; margin-top: 20px;">
+            <h3 style="color: #38bdf8; margin-bottom: 10px; font-size: 19px;">Decisión Técnica</h3>
+            <p style="font-size: 15px;">La <strong>extrusión en caliente</strong> es el único proceso viable. La matriz tipo "puente" produce secciones huecas continuas con acabado óptimo y herramental de costo moderado.</p>
+        </div>
+    </div>
+    <div class="bleed-img">
+        <img src="images/extrusion_proceso.jpg" alt="Extrusión en caliente de aluminio" style="object-position: center;">
+        <div class="img-overlay"></div>
+        <div style="position: absolute; bottom: 18px; left: 18px; right: 18px; background: rgba(15,23,42,0.7); backdrop-filter: blur(6px); border: 1px solid rgba(56,189,248,0.2); border-radius: 8px; padding: 12px 16px;">
+            <p style="margin: 0; font-size: 13px; color: #e2e8f0;">Proceso de extrusión en caliente — tocho AA6063 a 460–500 °C</p>
         </div>
     </div>
 </div>
@@ -298,26 +319,34 @@ td { padding: 11px 14px; border-bottom: 1px solid #334155; font-size: 15px; }
 <div class="slide-container" id="slide7">
     <h2 class="slide-title">Parámetros de <span>Operación</span></h2>
     <div class="content-area">
-        <div class="param-grid">
-            <div class="param-box">
-                <h3><i class="fa-solid fa-temperature-half"></i> Temperatura</h3>
-                <p><strong>Tocho:</strong> 460-500 °C  |  <strong>Matriz:</strong> 450-480 °C</p>
-                <p style="font-size: 15px; margin-top: 10px; color: #94a3b8;"><strong style="color: #10b981;">¿Por qué?</strong> Mantiene el metal maleable sin fundirlo, evitando que una temperatura muy alta genere fricción destructiva en la salida.</p>
+        <div class="two-column" style="align-items: stretch;">
+            <div class="param-grid" style="grid-template-columns: 1fr; gap: 14px;">
+                <div class="param-box" style="padding: 18px;">
+                    <h3 style="font-size: 17px;"><i class="fa-solid fa-temperature-half"></i> Temperatura</h3>
+                    <p style="font-size: 15px;"><strong>Tocho:</strong> 460-500 °C | <strong>Matriz:</strong> 450-480 °C</p>
+                    <p style="font-size: 13px; margin-top: 6px; color: #94a3b8;">Mantiene el metal maleable sin fundirlo.</p>
+                </div>
+                <div class="param-box" style="border-color: #38bdf8; padding: 18px;">
+                    <h3 style="color: #38bdf8; font-size: 17px;"><i class="fa-solid fa-gauge-high"></i> Velocidad</h3>
+                    <p style="font-size: 15px;"><strong>Salida:</strong> 15-25 m/min | <strong>Pistón:</strong> 1.0-1.6 m/min</p>
+                    <p style="font-size: 13px; margin-top: 6px; color: #94a3b8;">Previene el desgarro térmico (hot tearing).</p>
+                </div>
+                <div class="param-box" style="border-color: #f59e0b; padding: 18px;">
+                    <h3 style="color: #f59e0b; font-size: 17px;"><i class="fa-solid fa-compress"></i> Fuerza y Presión</h3>
+                    <p style="font-size: 15px;"><strong>Fuerza:</strong> ≈ 1 304 kN (133 Tonf) | <strong>Presión:</strong> 73,8 MPa</p>
+                    <p style="font-size: 13px; margin-top: 6px; color: #94a3b8;">Compatible con prensas hidráulicas comerciales.</p>
+                </div>
+                <div class="param-box" style="border-color: #f43f5e; padding: 18px;">
+                    <h3 style="color: #f43f5e; font-size: 17px;"><i class="fa-solid fa-minimize"></i> Relación de Extrusión</h3>
+                    <p style="font-size: 15px;"><strong>Ratio (R):</strong> ≈ 15,6 : 1 — rango ideal (10:1 a 35:1)</p>
+                    <p style="font-size: 13px; margin-top: 6px; color: #94a3b8;">Tocho Ø150 mm se comprime a la geometría deseada.</p>
+                </div>
             </div>
-            <div class="param-box" style="border-color: #38bdf8;">
-                <h3 style="color: #38bdf8;"><i class="fa-solid fa-gauge-high"></i> Velocidad</h3>
-                <p><strong>Salida del perfil:</strong> 15-25 m/min.</p>
-                <p style="font-size: 15px; margin-top: 10px; color: #94a3b8;"><strong style="color: #38bdf8;">¿Por qué?</strong> Un avance del pistón (1.0-1.6 m/min) calibrado previene el desgarro térmico (hot tearing) que arruina la superficie del aluminio.</p>
-            </div>
-            <div class="param-box" style="border-color: #f59e0b;">
-                <h3 style="color: #f59e0b;"><i class="fa-solid fa-compress"></i> Fuerza y Presión</h3>
-                <p><strong>Fuerza Total:</strong> ≈ 1 304 kN (133 Tonf)</p>
-                <p style="font-size: 15px; margin-top: 10px; color: #94a3b8;"><strong style="color: #f59e0b;">¿Por qué?</strong> A 73,8 MPa de presión, la fuerza garantiza que el perfil fluya sin atascarse. 100% compatible con prensas hidráulicas comerciales.</p>
-            </div>
-            <div class="param-box" style="border-color: #f43f5e;">
-                <h3 style="color: #f43f5e;"><i class="fa-solid fa-minimize"></i> Relación de Extrusión</h3>
-                <p><strong>Ratio (R):</strong> ≈ 15,6 : 1</p>
-                <p style="font-size: 15px; margin-top: 10px; color: #94a3b8;"><strong style="color: #f43f5e;">¿Por qué?</strong> Se ubica en el rango ideal (10:1 a 35:1) indicando que un tocho estándar de Ø150 mm se comprimirá perfectamente hacia la geometría deseada.</p>
+            <div class="img-accent" style="height: 100%; min-height: 420px;">
+                <img src="images/calculos_ingenieria.jpg" alt="Ingeniería de cálculos" style="object-fit: cover; object-position: center 20%;">
+                <div style="position: absolute; bottom: 14px; left: 14px; right: 14px; background: rgba(15,23,42,0.7); backdrop-filter: blur(6px); border: 1px solid rgba(56,189,248,0.2); border-radius: 8px; padding: 12px 16px;">
+                    <p style="margin: 0; font-size: 13px; color: #e2e8f0;">Esfuerzo de fluencia (Ȳ<sub>f</sub>) a 480 °C ≈ <strong>15 MPa</strong> para la aleación 6063</p>
+                </div>
             </div>
         </div>
     </div>
@@ -374,29 +403,10 @@ td { padding: 11px 14px; border-bottom: 1px solid #334155; font-size: 15px; }
                     <p><strong>Perfilometría Láser:</strong> Escanear el 100% de la producción a la salida, detectando desviaciones al instante y prediciendo el desgaste de la matriz.</p>
                 </div>
             </div>
-            <!-- SCADA SVG Diagram -->
-            <div class="image-wrapper" style="height: 450px; display:flex; align-items:center; justify-content:center; background:#0f172a; border: 1px solid #334155;">
-                <svg viewBox="0 0 500 500" width="100%" height="100%">
-                    <rect x="50" y="50" width="400" height="250" fill="#1e293b" stroke="#334155" stroke-width="6" rx="12"/>
-                    <text x="70" y="90" fill="#38bdf8" font-size="18" font-family="JetBrains Mono, monospace" font-weight="bold">SCADA &amp; LASER SYSTEM</text>
-                    <line x1="70" y1="110" x2="430" y2="110" stroke="#334155" stroke-width="2"/>
-                    <!-- Data line -->
-                    <path d="M 80 200 L 150 150 L 250 230 L 350 130 L 420 170" fill="none" stroke="#10b981" stroke-width="3"/>
-                    <circle cx="150" cy="150" r="4" fill="#10b981"/>
-                    <circle cx="250" cy="230" r="4" fill="#10b981"/>
-                    <circle cx="350" cy="130" r="6" fill="#10b981"/>
-                    <circle cx="420" cy="170" r="4" fill="#10b981"/>
-                    <!-- Profile -->
-                    <rect x="100" y="350" width="300" height="60" fill="none" stroke="#cbd5e1" stroke-width="3" rx="4"/>
-                    <text x="250" y="385" fill="#94a3b8" font-size="14" font-family="monospace" text-anchor="middle">PERFIL EXTRUIDO</text>
-                    <!-- Laser scanner -->
-                    <circle cx="200" cy="270" r="10" fill="#f43f5e"/>
-                    <text x="220" y="275" fill="#f43f5e" font-size="11" font-family="monospace">LASER</text>
-                    <path d="M 200 280 L 150 350" stroke="rgba(244, 63, 94, 0.4)" stroke-width="2"/>
-                    <path d="M 200 280 L 250 350" stroke="rgba(244, 63, 94, 0.4)" stroke-width="2"/>
-                    <!-- Connection line -->
-                    <path d="M 250 300 L 250 340" stroke="#334155" stroke-width="2" stroke-dasharray="4,4"/>
-                </svg>
+            <!-- SCADA Image -->
+            <div class="img-accent" style="height: 450px;">
+                <img src="images/scada_innovacion.png" alt="Sistema SCADA e ingenieros revisando automatización" style="object-fit: cover; object-position: center;">
+                <div class="img-caption"><p>Sistema SCADA integrado para trazabilidad y control en tiempo real</p></div>
             </div>
         </div>
     </div>
